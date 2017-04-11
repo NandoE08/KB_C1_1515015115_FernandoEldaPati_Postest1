@@ -1,0 +1,38 @@
+/*****************************************************************************
+
+		Copyright (c) 1984 - 2000 Prolog Development Center A/S
+
+ Project:  
+ FileName: CH06E08.PRO
+ Purpose: 
+ Written by: PDC
+ Modifyed by: Eugene Akimov
+ Comments: 
+******************************************************************************/
+
+predicates
+  factorial(unsigned,real) - procedure (i,o)
+  factorial(unsigned,real,unsigned,real) - procedure (i,o,i,i)
+
+/* Numbers likely to become large are declared as reals. */
+
+clauses
+  factorial(N,FactN):-
+	factorial(N,FactN,1,1.0).
+
+  factorial(N,FactN,N,FactN):-!.
+  factorial(N,FactN,I,P):-
+	NewI = I+1,
+	NewP = P*NewI,
+	factorial(N, FactN, NewI, NewP).
+
+goal
+  factorial(3,X).
+
+
+Analisis :
+- goal mencari X. pada awal aturan klausa N= 3 dan FactN = X yang ingin dicari. lalu aturannya N dan FactN atau 3 dan X dapat di cari jika memenuhi aturan Factorial(N,FactN,1,1.0) dimana N= 3 FactN= x . maka factorial(3,X,1,1.0) dan X yang ingin dicari
+- selanjutnya terdapat aturan factorial(N,FactN,N,FactN) dimana nilai factorialnya 3,X dan 3,X . maka akan berhenti.
+- Selanjutnya menuju subgoal dengan factorial(N,FactN,I,P) dimana N=3,FactN=X,I=1 dan P=1.0  yang sudah di tetapkan pada aturan pertama. dan factorial tersebut ingin dicari jika memenuhi aturan I+1 lalu di inisialkan dengan variabel NewI dan juga P*NewI di inisialkan NewP dan akan melakukan uinfikasi ke dirinya sendiri yaitu factorial(N,FactN,NewI,NewP).maka NewI= 1+1 = 2 dan NewP= 1.0 * 2 = 2
+- dan mengulangi karena belum menemukan X dan juga belum memenuhi aturan fact(N,FactN,N,FactN) . menuju subgaol terakhir atau aturan terakhir dengan nilai factorial(3,X,2,2). maka akan mengikuti rumus NewI = 2+1 = 3 dan NewP = 2 * 3 = 6.
+- kemudian melakukan unifikasi dan pada aturan kedua factorial(N,FactN,N,FactN) telah dipenuhi dengan nilai factorial(3,X,3,6) dan telah didapatakan nilai dari X yaitu 6
